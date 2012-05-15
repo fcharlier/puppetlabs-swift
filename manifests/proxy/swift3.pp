@@ -11,7 +11,7 @@
 #
 # == Copyright
 #
-# Copyright 2012 eNovance Labs licensing@enovance.com
+# Copyright 2012 eNovance licensing@enovance.com
 #
 class swift::proxy::swift3() {
 
