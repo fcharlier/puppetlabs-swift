@@ -29,8 +29,6 @@ describe 'swift::proxy::keystone' do
     it { should contain_file(fragment_file).with_content(/is_admin = true/) }
     it { should contain_file(fragment_file).with_content(/cache = swift.cache/) }
 
-    it { should contain_keystone__client__authtoken('/etc/swift/proxy-server.conf') }
-
   end
 
   describe 'with parameter overrides' do
