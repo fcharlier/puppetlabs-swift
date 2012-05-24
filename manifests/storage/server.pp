@@ -22,7 +22,7 @@ define swift::storage::server(
   # TODO if array does not include type-server, warn
   if(
     (is_array($pipeline) and ! member($pipeline, "${type}-server")) or
-    $pipline != "${type}-server"
+    $pipeline != "${type}-server"
   ) {
       warning("swift storage server ${type} must specify ${type}-server")
   }

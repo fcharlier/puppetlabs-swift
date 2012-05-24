@@ -78,7 +78,7 @@ describe 'swift::storage::server' do
               .with_content(/^#{k.to_s}\s*=\s*#{v}\s*$/)
             }
           end
-          describe "when pipline is passed an array" do
+          describe "when pipeline is passed an array" do
             let :params do req_params.merge({:pipeline => [1,2,3]})  end
             it { should contain_file(fragment_file) \
               .with_content(/^pipeline\s*=\s*1 2 3\s*$/)
