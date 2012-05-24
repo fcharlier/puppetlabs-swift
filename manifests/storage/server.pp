@@ -52,10 +52,23 @@ define swift::storage::server(
     mode    => 640,
   }
 
+  $required_classes = split(
+    inline_template(
+      "<%=
+        (pipeline - ['${type}-server']).collect do |x|
+          'swift::storage::filter::' + x
+        end.join(',')
+      %>"), ',')
+
   # you can now add your custom fragments at the user level
   concat::fragment { "swift-${type}-${name}":
     target  => "/etc/swift/${config_file_path}",
     content => template("swift/${type}-server.conf.erb"),
     order   => '00',
+    # require classes for each of the elements of the pipeline
+    # this is to ensure the user gets reasonable elements if he
+    # does not specify the backends for every specified element of
+    # the pipeline
+    before  => Class[$required_classes],
   }
 }
