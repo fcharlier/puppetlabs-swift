@@ -53,11 +53,11 @@ define swift::storage::server(
     mode    => 640,
   }
 
-  $required_classes = split(
+  $required_middlewares = split(
     inline_template(
       "<%=
         (pipeline - ['${type}-server']).collect do |x|
-          'swift::storage::filter::' + x
+          'Swift::Storage::Filter::' + x + '[${type}]'
         end.join(',')
       %>"), ',')
 
@@ -70,6 +70,6 @@ define swift::storage::server(
     # this is to ensure the user gets reasonable elements if he
     # does not specify the backends for every specified element of
     # the pipeline
-    before  => Class[$required_classes],
+    before  => $required_middlewares,
   }
 }
