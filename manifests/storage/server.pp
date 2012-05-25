@@ -32,6 +32,7 @@ define swift::storage::server(
 
   validate_re($name, '^\d+$')
   validate_re($type, '^object|container|account$')
+  validate_array($pipeline)
   # TODO - validate that name is an integer
 
   $bind_port = $name

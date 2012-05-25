@@ -70,7 +70,7 @@ describe 'swift::storage::server' do
           :mount_check => true,
           :concurrency => 5,
           :workers     => 7,
-          :pipeline    => 'foo'
+          :pipeline    => ['foo']
         }.each do |k,v|
           describe "when #{k} is set" do
             let :params do req_params.merge({k => v}) end
