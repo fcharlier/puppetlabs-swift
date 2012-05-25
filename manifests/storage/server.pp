@@ -6,17 +6,20 @@
 define swift::storage::server(
   $type,
   $storage_local_net_ip,
-  $devices          = '/srv/node',
-  $owner            = 'swift',
-  $group            = 'swift',
-  $max_connections  = 25,
-  $pipeline         = ["${type}-server"],
-  $mount_check      = 'false',
-  $user             = 'swift',
-  $workers          = '1',
-  $concurrency      = $::processorcount,
+  $devices                = '/srv/node',
+  $owner                  = 'swift',
+  $group                  = 'swift',
+  $max_connections        = 25,
+  $pipeline               = ["${type}-server"],
+  $mount_check            = 'false',
+  $user                   = 'swift',
+  $workers                = '1',
+  $concurrency            = $::processorcount,
+  $replicator_concurrency = $concurrency,
+  $updater_concurrency    = $concurrency,
+  $reaper_concurrency     = $concurrency,
   # this parameters needs to be specified after type and name
-  $config_file_path = "${type}-server/${name}.conf"
+  $config_file_path       = "${type}-server/${name}.conf"
 ) {
 
   # TODO if array does not include type-server, warn
