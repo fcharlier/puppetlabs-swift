@@ -70,7 +70,7 @@ describe 'swift::storage::server' do
           :mount_check => true,
           :concurrency => 5,
           :workers     => 7,
-          :pipeline    => 'foo'
+          :pipeline    => ['foo']
         }.each do |k,v|
           describe "when #{k} is set" do
             let :params do req_params.merge({k => v}) end
@@ -78,7 +78,7 @@ describe 'swift::storage::server' do
               .with_content(/^#{k.to_s}\s*=\s*#{v}\s*$/)
             }
           end
-          describe "when pipline is passed an array" do
+          describe "when pipeline is passed an array" do
             let :params do req_params.merge({:pipeline => [1,2,3]})  end
             it { should contain_file(fragment_file) \
               .with_content(/^pipeline\s*=\s*1 2 3\s*$/)
