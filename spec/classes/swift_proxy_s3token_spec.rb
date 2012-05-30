@@ -31,7 +31,7 @@ describe 'swift::proxy::s3token' do
     end
   end
 
-  describe "when using default parameters" do
+  describe "when overriding default parameters" do
     let :params do
       {
           :auth_port     => 4212,

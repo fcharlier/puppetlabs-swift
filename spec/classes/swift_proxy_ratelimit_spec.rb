@@ -33,7 +33,7 @@ describe 'swift::proxy::ratelimit' do
     end
   end
 
-  describe "when using default parameters" do
+  describe "when overriding default parameters" do
     let :params do
       {
         :clock_accuracy         => 9436,
