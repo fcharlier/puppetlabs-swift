@@ -25,4 +25,5 @@ class swift::proxy::s3token(
     order   => '28',
   }
 
+  include 'keystone::python'
 }

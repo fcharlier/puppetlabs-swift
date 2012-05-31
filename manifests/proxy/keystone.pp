@@ -10,4 +10,6 @@ class swift::proxy::keystone(
     order   => '79',
   }
 
+  include 'keystone::python'
+
 }
