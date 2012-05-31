@@ -5,6 +5,8 @@
 #
 # == Examples
 #
+#  include 'swift::proxy::catch_errors'
+#
 # == Authors
 #
 #   François Charlier fcharlier@ploup.net
@@ -13,6 +15,7 @@
 #
 # Copyright 2012 eNovance licensing@enovance.com
 #
+
 class swift::proxy::catch_errors() {
 
   concat::fragment { 'swift_catch_errors':
