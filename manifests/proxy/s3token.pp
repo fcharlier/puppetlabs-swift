@@ -1,6 +1,14 @@
 #
 # Configure swift s3token.
 #
+# == Parameters
+#  [auth_host] the keystone host
+#   Optional. Defaults to 127.0.0.1
+#  [auth_port] the Keystone client API port
+#   Optional. Defaults to 5000
+#  [auth_protocol] http or https
+#   Optional. Defaults to http
+#
 # == Dependencies
 #
 # == Examples
@@ -25,4 +33,5 @@ class swift::proxy::s3token(
     order   => '28',
   }
 
+  include 'keystone::python'
 }

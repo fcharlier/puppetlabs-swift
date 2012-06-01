@@ -15,6 +15,21 @@ describe 'swift::proxy::authtoken' do
     '
   end
 
-  it { should contain_keystone__client__authtoken('/etc/swift/proxy-server.conf') }
+  let :params do
+    {
+      :admin_token => 'admin_token',
+      :admin_user => 'admin_user',
+      :admin_tenant_name => 'admin_tenant_name',
+      :admin_password => 'admin_password',
+      :delay_auth_decision => 42,
+      :auth_host => '1.2.3.4',
+      :auth_port => 4682,
+      :auth_protocol => 'https'
+    }
+  end
+
+  it { should contain_keystone__client__authtoken('/etc/swift/proxy-server.conf').with(
+    params
+  )}
 
 end
