@@ -25,7 +25,7 @@ describe 'swift::dispersion' do
       .with_content(/^auth_user = dispersion:services$/)
     }
     it { should contain_file('/etc/swift/dispersion.conf') \
-      .with_content(/^auth_key = ChangeMe$/)
+      .with_content(/^auth_key = dispersion_password$/)
     }
     it { should contain_file('/etc/swift/dispersion.conf') \
       .with_content(/^swift_dir = \/etc\/swift$/)
@@ -45,8 +45,8 @@ describe 'swift::dispersion' do
     it { should contain_exec('swift-dispersion-populate').with(
       :path      => '/usr/bin',
       :subscribe => 'File[/etc/swift/dispersion.conf]',
-      :onlyif    => "swift -A http://127.0.0.1:5000/v2.0/ -U dispersion:services -K ChangeMe -V 2.0 stat",
-      :unless    => "swift -A http://127.0.0.1:5000/v2.0/ -U dispersion:services -K ChangeMe -V 2.0 list | grep -q dispersion_"
+      :onlyif    => "swift -A http://127.0.0.1:5000/v2.0/ -U dispersion:services -K dispersion_password -V 2.0 stat",
+      :unless    => "swift -A http://127.0.0.1:5000/v2.0/ -U dispersion:services -K dispersion_password -V 2.0 list | grep -q dispersion_"
     )}
   end
 

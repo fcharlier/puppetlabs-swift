@@ -2,7 +2,7 @@ class swift::dispersion (
   $auth_url = 'http://127.0.0.1:5000/v2.0/',
   $auth_user = 'dispersion',
   $auth_tenant = 'services',
-  $auth_pass = 'dispersion_pass',
+  $auth_pass = 'dispersion_password',
   $auth_version = '2.0',
   $swift_dir = '/etc/swift',
   $coverage = 1,
