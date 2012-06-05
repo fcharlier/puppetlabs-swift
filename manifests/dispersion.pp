@@ -1,3 +1,53 @@
+# == Class: swift::dispersion
+#
+# This class creates a configuration file for swift-dispersion-report and
+# and swift-dispersion-populate tools.
+#
+# These tools need access to all the storage nodes and are generally ran
+# on the swift proxy node.
+#
+# For more details, see :
+#   http://swift.openstack.org/admin_guide.html#cluster-health
+#
+# === Parameters
+#
+# [*auth_url*]
+#  String. The full URL to the authentication endpoint (eg. keystone)
+#  Optional. Defaults to '127.0.0.1'.
+# [*auth_user*]
+#  String. The Swift username to use to run the tools.
+#  Optional. Defaults to 'dispersion'.
+# [*auth_tenant*]
+#  String. The user's tenant/project.
+#  Optional. Defaults to 'services'.
+# [*auth_pass*]
+#  String. The user's password.
+#  Optional. Defaults to 'dispersion_password'.
+# [*auth_version*]
+#  String. The version to pass to the 'swift' command.
+#  Use '2.0' when using Keystone.
+#  Optional. Defaults to '2.0'
+# [*swift_dir*]
+#  String. The path to swift configuration folder
+#  Optional. Defaults to '/etc/swift'.
+# [*coverage*]
+#  Integer. The percentage of partitions to cover.
+#  Optional. Defaults to 1
+# [*retries*]
+#  Integer. Number of retries.
+#  Optional. Defaults to 5.
+# [*concurrency*]
+#  Integer. Process concurrency.
+#  Optional. Defaults to 25.
+# [*dump_json*]
+#  'yes' or 'no'. Should 'swift-dispersion-report' dump json results ?
+#  Optional. Defaults to no.
+#
+# === Authors
+#
+# François Charlier fcharlier@ploup.net
+#
+
 class swift::dispersion (
   $auth_url = 'http://127.0.0.1:5000/v2.0/',
   $auth_user = 'dispersion',
@@ -23,10 +73,11 @@ class swift::dispersion (
   }
 
   exec { 'swift-dispersion-populate':
-    path      => '/usr/bin',
+    path      => ['/bin', '/usr/bin'],
     subscribe => File['/etc/swift/dispersion.conf'],
-    onlyif    => "swift -A ${auth_url} -U ${auth_user}:${auth_tenant} -K ${auth_pass} -V ${auth_version} stat",
-    unless    => "swift -A ${auth_url} -U ${auth_user}:${auth_tenant} -K ${auth_pass} -V ${auth_version} list | grep -q dispersion_",
+    timeout   => 0,
+    onlyif    => "swift -A ${auth_url} -U ${auth_tenant}:${auth_user} -K ${auth_pass} -V ${auth_version} stat | grep 'Account: '",
+    unless    => "swift -A ${auth_url} -U ${auth_tenant}:${auth_user} -K ${auth_pass} -V ${auth_version} list | grep dispersion_",
   }
 
 }

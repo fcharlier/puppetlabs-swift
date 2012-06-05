@@ -22,7 +22,10 @@ describe 'swift::dispersion' do
       .with_content(/^auth_url = http:\/\/127.0.0.1:5000\/v2.0\/$/)
     }
     it { should contain_file('/etc/swift/dispersion.conf') \
-      .with_content(/^auth_user = dispersion:services$/)
+      .with_content(/^auth_version = 2.0$/)
+    }
+    it { should contain_file('/etc/swift/dispersion.conf') \
+      .with_content(/^auth_user = services:dispersion$/)
     }
     it { should contain_file('/etc/swift/dispersion.conf') \
       .with_content(/^auth_key = dispersion_password$/)
@@ -43,10 +46,10 @@ describe 'swift::dispersion' do
       .with_content(/^dump_json = no$/)
     }
     it { should contain_exec('swift-dispersion-populate').with(
-      :path      => '/usr/bin',
+      :path      => ['/bin', '/usr/bin'],
       :subscribe => 'File[/etc/swift/dispersion.conf]',
-      :onlyif    => "swift -A http://127.0.0.1:5000/v2.0/ -U dispersion:services -K dispersion_password -V 2.0 stat",
-      :unless    => "swift -A http://127.0.0.1:5000/v2.0/ -U dispersion:services -K dispersion_password -V 2.0 list | grep -q dispersion_"
+      :onlyif    => "swift -A http://127.0.0.1:5000/v2.0/ -U services:dispersion -K dispersion_password -V 2.0 stat | grep 'Account: '",
+      :unless    => "swift -A http://127.0.0.1:5000/v2.0/ -U services:dispersion -K dispersion_password -V 2.0 list | grep dispersion_"
     )}
   end
 
@@ -72,7 +75,10 @@ describe 'swift::dispersion' do
       .with_content(/^auth_url = https:\/\/169.254.0.1:7000\/auth\/v8.0\/$/)
     }
     it { should contain_file('/etc/swift/dispersion.conf') \
-      .with_content(/^auth_user = foo:bar$/)
+      .with_content(/^auth_version = 1.0$/)
+    }
+    it { should contain_file('/etc/swift/dispersion.conf') \
+      .with_content(/^auth_user = bar:foo$/)
     }
     it { should contain_file('/etc/swift/dispersion.conf') \
       .with_content(/^auth_key = dummy$/)
@@ -93,10 +99,10 @@ describe 'swift::dispersion' do
       .with_content(/^dump_json = yes$/)
     }
     it { should contain_exec('swift-dispersion-populate').with(
-      :path      => '/usr/bin',
+      :path      => ['/bin', '/usr/bin'],
       :subscribe => 'File[/etc/swift/dispersion.conf]',
-      :onlyif    => "swift -A https://169.254.0.1:7000/auth/v8.0/ -U foo:bar -K dummy -V 1.0 stat",
-      :unless    => "swift -A https://169.254.0.1:7000/auth/v8.0/ -U foo:bar -K dummy -V 1.0 list | grep -q dispersion_"
+      :onlyif    => "swift -A https://169.254.0.1:7000/auth/v8.0/ -U bar:foo -K dummy -V 1.0 stat | grep 'Account: '",
+      :unless    => "swift -A https://169.254.0.1:7000/auth/v8.0/ -U bar:foo -K dummy -V 1.0 list | grep dispersion_"
     )}
   end
 end
