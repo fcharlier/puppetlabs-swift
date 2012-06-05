@@ -68,7 +68,6 @@ describe 'swift::storage::server' do
           :devices     => '/tmp/foo',
           :user        => 'dan',
           :mount_check => true,
-          :concurrency => 5,
           :workers     => 7,
           :pipeline    => ['foo']
         }.each do |k,v|
